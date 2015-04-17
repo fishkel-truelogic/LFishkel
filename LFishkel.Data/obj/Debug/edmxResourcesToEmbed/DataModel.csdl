@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="DataModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+  <EntityContainer Name="DataModelContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Banks" EntityType="DataModel.Bank" />
+    <EntitySet Name="Accounts" EntityType="DataModel.Account" />
+    <EntitySet Name="People" EntityType="DataModel.Person" />
+    <AssociationSet Name="PersonAccount" Association="DataModel.PersonAccount">
+      <End Role="Person" EntitySet="People" />
+      <End Role="Account" EntitySet="Accounts" />
+    </AssociationSet>
+    <AssociationSet Name="BankAccount" Association="DataModel.BankAccount">
+      <End Role="Bank" EntitySet="Banks" />
+      <End Role="Account" EntitySet="Accounts" />
+    </AssociationSet>
+    <EntitySet Name="Movements" EntityType="DataModel.Movement" />
+    <AssociationSet Name="AccountMovement" Association="DataModel.AccountMovement">
+      <End Role="Account" EntitySet="Accounts" />
+      <End Role="Movement" EntitySet="Movements" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Bank">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Accounts" Relationship="DataModel.BankAccount" FromRole="Bank" ToRole="Account" />
+    <Property Name="Name" Type="String" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Account">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Person" Relationship="DataModel.PersonAccount" FromRole="Account" ToRole="Person" />
+    <Property Name="PersonId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Bank" Relationship="DataModel.BankAccount" FromRole="Account" ToRole="Bank" />
+    <Property Name="BankId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Movements" Relationship="DataModel.AccountMovement" FromRole="Account" ToRole="Movement" />
+  </EntityType>
+  <EntityType Name="Person">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Accounts" Relationship="DataModel.PersonAccount" FromRole="Person" ToRole="Account" />
+  </EntityType>
+  <Association Name="PersonAccount">
+    <End Type="DataModel.Person" Role="Person" Multiplicity="1" />
+    <End Type="DataModel.Account" Role="Account" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Account">
+        <PropertyRef Name="PersonId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BankAccount">
+    <End Type="DataModel.Bank" Role="Bank" Multiplicity="1" />
+    <End Type="DataModel.Account" Role="Account" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bank">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Account">
+        <PropertyRef Name="BankId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Movement">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Account" Relationship="DataModel.AccountMovement" FromRole="Movement" ToRole="Account" />
+    <Property Name="AccountId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <Association Name="AccountMovement">
+    <End Type="DataModel.Account" Role="Account" Multiplicity="1" />
+    <End Type="DataModel.Movement" Role="Movement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Account">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Movement">
+        <PropertyRef Name="AccountId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

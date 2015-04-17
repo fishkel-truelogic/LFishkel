@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DataModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="DataModelStoreContainer">
+    <EntitySet Name="Banks" EntityType="DataModel.Store.Banks" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Accounts" EntityType="DataModel.Store.Accounts" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="People" EntityType="DataModel.Store.People" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Movements" EntityType="DataModel.Store.Movements" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="PersonAccount" Association="DataModel.Store.PersonAccount">
+      <End Role="Person" EntitySet="People" />
+      <End Role="Account" EntitySet="Accounts" />
+    </AssociationSet>
+    <AssociationSet Name="BankAccount" Association="DataModel.Store.BankAccount">
+      <End Role="Bank" EntitySet="Banks" />
+      <End Role="Account" EntitySet="Accounts" />
+    </AssociationSet>
+    <AssociationSet Name="AccountMovement" Association="DataModel.Store.AccountMovement">
+      <End Role="Account" EntitySet="Accounts" />
+      <End Role="Movement" EntitySet="Movements" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Banks">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Accounts">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PersonId" Type="int" Nullable="false" />
+    <Property Name="BankId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="People">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Movements">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AccountId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="PersonAccount">
+    <End Role="Person" Type="DataModel.Store.People" Multiplicity="1" />
+    <End Role="Account" Type="DataModel.Store.Accounts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Account">
+        <PropertyRef Name="PersonId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="BankAccount">
+    <End Role="Bank" Type="DataModel.Store.Banks" Multiplicity="1" />
+    <End Role="Account" Type="DataModel.Store.Accounts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bank">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Account">
+        <PropertyRef Name="BankId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AccountMovement">
+    <End Role="Account" Type="DataModel.Store.Accounts" Multiplicity="1" />
+    <End Role="Movement" Type="DataModel.Store.Movements" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Account">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Movement">
+        <PropertyRef Name="AccountId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

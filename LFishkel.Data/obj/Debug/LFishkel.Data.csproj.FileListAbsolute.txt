@@ -1,0 +1,10 @@
+c:\users\aledesma\documents\visual studio 2013\Projects\LFishkel\LFishkel.Data\bin\Debug\LFishkel.Data.dll.config
+c:\users\aledesma\documents\visual studio 2013\Projects\LFishkel\LFishkel.Data\bin\Debug\LFishkel.Data.dll
+c:\users\aledesma\documents\visual studio 2013\Projects\LFishkel\LFishkel.Data\bin\Debug\LFishkel.Data.pdb
+c:\users\aledesma\documents\visual studio 2013\Projects\LFishkel\LFishkel.Data\bin\Debug\EntityFramework.dll
+c:\users\aledesma\documents\visual studio 2013\Projects\LFishkel\LFishkel.Data\bin\Debug\EntityFramework.SqlServer.dll
+c:\users\aledesma\documents\visual studio 2013\Projects\LFishkel\LFishkel.Data\bin\Debug\EntityFramework.xml
+c:\users\aledesma\documents\visual studio 2013\Projects\LFishkel\LFishkel.Data\bin\Debug\EntityFramework.SqlServer.xml
+c:\users\aledesma\documents\visual studio 2013\Projects\LFishkel\LFishkel.Data\obj\Debug\LFishkel.Data.dll
+c:\users\aledesma\documents\visual studio 2013\Projects\LFishkel\LFishkel.Data\obj\Debug\LFishkel.Data.pdb
+c:\users\aledesma\documents\visual studio 2013\Projects\LFishkel\LFishkel.Data\obj\Debug\LFishkel.Data.csprojResolveAssemblyReference.cache

@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="lfishkelModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Account">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PersonId" Type="Int32" Nullable="false" />
+    <Property Name="BankId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Movements" Relationship="Self.FK_AccountMovement" FromRole="Accounts" ToRole="Movements" />
+    <NavigationProperty Name="Bank" Relationship="Self.FK_BankAccount" FromRole="Accounts" ToRole="Banks" />
+    <NavigationProperty Name="Person" Relationship="Self.FK_PersonAccount" FromRole="Accounts" ToRole="People" />
+  </EntityType>
+  <EntityType Name="Bank">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Accounts" Relationship="Self.FK_BankAccount" FromRole="Banks" ToRole="Accounts" />
+  </EntityType>
+  <EntityType Name="Movement">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="AccountId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Account" Relationship="Self.FK_AccountMovement" FromRole="Movements" ToRole="Accounts" />
+  </EntityType>
+  <EntityType Name="Person">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Accounts" Relationship="Self.FK_PersonAccount" FromRole="People" ToRole="Accounts" />
+  </EntityType>
+  <Association Name="FK_AccountMovement">
+    <End Role="Accounts" Type="Self.Account" Multiplicity="1" />
+    <End Role="Movements" Type="Self.Movement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Accounts">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Movements">
+        <PropertyRef Name="AccountId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BankAccount">
+    <End Role="Banks" Type="Self.Bank" Multiplicity="1" />
+    <End Role="Accounts" Type="Self.Account" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Banks">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Accounts">
+        <PropertyRef Name="BankId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PersonAccount">
+    <End Role="People" Type="Self.Person" Multiplicity="1" />
+    <End Role="Accounts" Type="Self.Account" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="People">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Accounts">
+        <PropertyRef Name="PersonId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="lfishkelEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Accounts" EntityType="Self.Account" />
+    <EntitySet Name="Banks" EntityType="Self.Bank" />
+    <EntitySet Name="Movements" EntityType="Self.Movement" />
+    <EntitySet Name="People" EntityType="Self.Person" />
+    <AssociationSet Name="FK_AccountMovement" Association="Self.FK_AccountMovement">
+      <End Role="Accounts" EntitySet="Accounts" />
+      <End Role="Movements" EntitySet="Movements" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BankAccount" Association="Self.FK_BankAccount">
+      <End Role="Banks" EntitySet="Banks" />
+      <End Role="Accounts" EntitySet="Accounts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PersonAccount" Association="Self.FK_PersonAccount">
+      <End Role="People" EntitySet="People" />
+      <End Role="Accounts" EntitySet="Accounts" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
